@@ -1,10 +1,16 @@
 package mock;
 
+import components.Sprite;
 import components.SpriteRenderer;
+import components.Spritesheet;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
+import util.AssetPool;
 
 public class LevelEditorScene extends Scene{
+
+    private GameObject obj1;
+    private Spritesheet sprites;
 
     public  LevelEditorScene(){
 
@@ -13,32 +19,48 @@ public class LevelEditorScene extends Scene{
 
     @Override
     public void init(){
-        this.camera = new Camera(new Vector2f());
-        int xOffset = 10;
-        int yOffset = 10;
+        loadResources();
 
-        float totalWidth = (float) (600 - xOffset * 2);
-        float totalHeight = (float) (300 - yOffset *2);
-        float sizeX = totalWidth/100.0f;
-        float sizeY = totalHeight/100.0f;
+        this.camera = new Camera(new Vector2f(-250,0));
 
-        for(int x = 0; x < 100; x++){
-            for(int y = 0; y < 100; y++){
-                float xPos = xOffset + (x * sizeX);
-                float yPos = yOffset + (y * sizeY);
+        sprites = AssetPool.getSpritesheet("assets/images/spritesheet.png");
 
-                GameObject go = new GameObject("obj" + x + " " +y, new Transform(new Vector2f(xPos, yPos),new Vector2f(sizeX, sizeY)));
-                go.addComponent(new SpriteRenderer(new Vector4f(xPos/totalWidth,yPos/totalHeight, 1, 1)));
-                this.addGameObjectToScene(go);
-            }
-        }
+
+        obj1 = new GameObject("object 1", new Transform(new Vector2f(100,100), new Vector2f(256, 256)));
+        obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
+        this.addGameObjectToScene(obj1);
+
+        GameObject obj2 = new GameObject("object 2", new Transform(new Vector2f(400,100), new Vector2f(256, 256)));
+        obj2.addComponent(new SpriteRenderer(sprites.getSprite(10)));
+        this.addGameObjectToScene(obj2);
+
+
     }
+
+    private void loadResources(){
+        AssetPool.getShader("assets/shaders/default.glsl");
+        AssetPool.addSpritesheet("assets/images/spritesheet.png",
+                new Spritesheet(AssetPool.getTexture("assets/images/spritesheet.png"),
+                16,16,26,0));
+    }
+
+    private int spriteIndex = 0;
+    private float spriteFlipTime = 0.2f;
+    private float spriteFlipTimeLeft = 0.0f;
 
     @Override
     public void update(float dt){
+        spriteFlipTimeLeft -=dt;
+        if(spriteFlipTimeLeft <= 0){
+            spriteFlipTimeLeft =spriteFlipTime;
+            spriteIndex++;
+            if(spriteIndex > 4){
+                spriteIndex = 0;
+            }
+            obj1.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(spriteIndex));
+        }
 
-
-        System.out.println(1.0f/dt);
+        //System.out.println(1.0f/dt);
         for(GameObject go : this.gameObjects){
             go.update(dt);
         }
