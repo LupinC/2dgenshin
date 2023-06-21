@@ -7,6 +7,7 @@ version '1.0-SNAPSHOT'
 sourceCompatibility=1.11
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
@@ -22,9 +23,23 @@ test {
 project.ext.lwjglVersion = "3.2.3"
 project.ext.jomlVersion = "1.10.5"
 project.ext.lwjglNatives = "natives-windows"
+project.ext.imguiVersion = '1.76-0.9'
 
 
 dependencies {
+    //gson
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    //IM GUI
+    implementation "io.imgui.java:binding:$imguiVersion"
+    implementation "io.imgui.java:lwjgl3:$imguiVersion"
+
+    // Include all available natives, but it's likely that you want something specific
+    runtimeOnly "io.imgui.java:natives-windows:$imguiVersion"
+
+
+    //LWJGL
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
     implementation "org.lwjgl:lwjgl"

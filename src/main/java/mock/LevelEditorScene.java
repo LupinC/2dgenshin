@@ -1,8 +1,11 @@
 package mock;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import components.Sprite;
 import components.SpriteRenderer;
 import components.Spritesheet;
+import imgui.ImGui;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 import util.AssetPool;
@@ -11,6 +14,7 @@ public class LevelEditorScene extends Scene{
 
     private GameObject obj1;
     private Spritesheet sprites;
+    SpriteRenderer obj1sprite;
 
     public  LevelEditorScene(){
 
@@ -25,15 +29,30 @@ public class LevelEditorScene extends Scene{
 
         sprites = AssetPool.getSpritesheet("assets/images/spritesheet.png");
 
-
-        obj1 = new GameObject("object 1", new Transform(new Vector2f(100,100), new Vector2f(256, 256)));
-        obj1.addComponent(new SpriteRenderer(sprites.getSprite(0)));
+        obj1 = new GameObject("object 1",
+                new Transform(new Vector2f(200,100), new Vector2f(256, 256)), 2);
+        obj1sprite = new SpriteRenderer();
+        obj1sprite.setColor(new Vector4f(1,0,0,1));
+        obj1.addComponent(obj1sprite);
         this.addGameObjectToScene(obj1);
+        this.activeGameObject = obj1;
 
-        GameObject obj2 = new GameObject("object 2", new Transform(new Vector2f(400,100), new Vector2f(256, 256)));
-        obj2.addComponent(new SpriteRenderer(sprites.getSprite(10)));
+        GameObject obj2 = new GameObject("object 2",
+                new Transform(new Vector2f(400,100), new Vector2f(256, 256)), 2);
+        SpriteRenderer obj2spriteRenderer = new SpriteRenderer();
+        Sprite obj2sprite = new Sprite();
+        obj2sprite.setTexture(AssetPool.getTexture("assets/images/blendImage2.png"));
+        obj2spriteRenderer.setSprite(obj2sprite);
+        obj2.addComponent(obj2spriteRenderer);
         this.addGameObjectToScene(obj2);
 
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
+
+        String serialized = gson.toJson(obj1);
+        GameObject obj = gson.fromJson(serialized, GameObject.class);
+        System.out.println(obj);
 
     }
 
@@ -44,26 +63,25 @@ public class LevelEditorScene extends Scene{
                 16,16,26,0));
     }
 
-    private int spriteIndex = 0;
-    private float spriteFlipTime = 0.2f;
-    private float spriteFlipTimeLeft = 0.0f;
 
     @Override
     public void update(float dt){
-        spriteFlipTimeLeft -=dt;
-        if(spriteFlipTimeLeft <= 0){
-            spriteFlipTimeLeft =spriteFlipTime;
-            spriteIndex++;
-            if(spriteIndex > 4){
-                spriteIndex = 0;
-            }
-            obj1.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(spriteIndex));
-        }
-
         //System.out.println(1.0f/dt);
         for(GameObject go : this.gameObjects){
             go.update(dt);
         }
         this.renderer.render();
     }
+
+    @Override
+    public void imgui(){
+        ImGui.begin("Test window");
+        ImGui.text("random text");
+        ImGui.end();
+    }
 }
+
+// blending function: C_f = C_a (S_a) + Cs(1 - Sa)
+//example: green on red, Sa = 0.6: Cf = [0, 1, 0] * 0.6 + [1, 0, 0] * 0.4
+//                                    = [0.4, 0.6, 0]
+//draw further back things first: z-index: -2 to 2

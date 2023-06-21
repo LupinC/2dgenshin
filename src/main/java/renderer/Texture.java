@@ -13,7 +13,11 @@ public class Texture {
     private int texID;
     private int width, height;
 
-    public Texture(String filepath){
+/*    public Texture(String filepath){
+
+    }*/
+
+    public void init(String filepath){
         this.filepath = filepath;
 
         //generate texture on GPU
@@ -45,8 +49,8 @@ public class Texture {
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width.get(0),
                         height.get(0), 0,GL_RGB, GL_UNSIGNED_BYTE,image);
             } else if(channels.get(0) == 4){
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width.get(0),
-                    height.get(0), 0,GL_RGBA, GL_UNSIGNED_BYTE,image);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width.get(0),
+                        height.get(0), 0,GL_RGBA, GL_UNSIGNED_BYTE,image);
             } else {
                 assert false: "Error: (Texture) Could not load image '"+ filepath + "'";
             }
@@ -56,6 +60,7 @@ public class Texture {
         }
 
         stbi_image_free(image);
+
     }
 
     public void bind(){

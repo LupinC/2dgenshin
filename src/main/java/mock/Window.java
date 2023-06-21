@@ -14,6 +14,7 @@ public class Window {
     private int width, height;
     private String title;
     private long glfwWindow;
+    private ImGuiLayer imguiLayer;
 
     public float r, g, b, a;
     private boolean fadeToBlack = false;
@@ -90,11 +91,16 @@ public class Window {
         //Configure glfw
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-        glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+
 
         //create the window
         glfwWindow = glfwCreateWindow(this.width,this.height, this.title, NULL, NULL);
+        glfwSetWindowSizeCallback(glfwWindow, (w, newWidth, newHeight) ->{
+            Window.setWidth(newWidth);
+            Window.setHeight(newHeight);
+        });
         if(glfwWindow == NULL){
             throw new IllegalStateException("Failed to create the glfw window.");
         }
@@ -103,6 +109,8 @@ public class Window {
         glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
         glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
         glfwSetKeyCallback(glfwWindow,KeyListener::keyCallback);
+
+
         //Make the openGL context current
         glfwMakeContextCurrent(glfwWindow);
 
@@ -114,6 +122,10 @@ public class Window {
 
         GL.createCapabilities();
 
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        this.imguiLayer = new ImGuiLayer(glfwWindow);
+        this.imguiLayer.initImGui();
         Window.changeScene(0);
     }
 
@@ -121,6 +133,7 @@ public class Window {
         float beginTime = (float) glfwGetTime();
         float endTime;
         float dt = -1.0f;
+
 
         while(!glfwWindowShouldClose(glfwWindow)){
             //poll event
@@ -132,6 +145,8 @@ public class Window {
             if(dt >=0) {
                 currentScene.update(dt);
             }
+
+            this.imguiLayer.update(dt, currentScene);
             glfwSwapBuffers(glfwWindow);
 
             endTime = (float) glfwGetTime();
@@ -139,5 +154,21 @@ public class Window {
             beginTime = endTime; //ensuring interruption by the system is recorded
 
         }
+    }
+
+    public static int getWidth(){
+        return get().width;
+    }
+
+    public static int getHeight(){
+        return get().height;
+    }
+
+    public static void setWidth(int newWidth){
+        get().width = newWidth;
+    }
+
+    public static void setHeight(int newHeight){
+        get().height = newHeight;
     }
 }
