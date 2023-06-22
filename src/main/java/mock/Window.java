@@ -2,6 +2,10 @@ package mock;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import renderer.DebugDraw;
+import scenes.LevelEditorScene;
+import scenes.LevelScene;
+import scenes.Scene;
 
 import java.util.Objects;
 
@@ -140,10 +144,13 @@ public class Window {
             //poll event
             glfwPollEvents();
 
+            DebugDraw.beginFrame();
+
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
 
             if(dt >=0) {
+                DebugDraw.draw();
                 currentScene.update(dt);
             }
 

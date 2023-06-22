@@ -8,6 +8,7 @@ import imgui.enums.ImGuiConfigFlags;
 import imgui.enums.ImGuiKey;
 import imgui.enums.ImGuiMouseCursor;
 import imgui.gl3.ImGuiImplGl3;
+import scenes.Scene;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -92,6 +93,10 @@ public class ImGuiLayer {
             io.setKeyShift(io.getKeysDown(GLFW_KEY_LEFT_SHIFT) || io.getKeysDown(GLFW_KEY_RIGHT_SHIFT));
             io.setKeyAlt(io.getKeysDown(GLFW_KEY_LEFT_ALT) || io.getKeysDown(GLFW_KEY_RIGHT_ALT));
             io.setKeySuper(io.getKeysDown(GLFW_KEY_LEFT_SUPER) || io.getKeysDown(GLFW_KEY_RIGHT_SUPER));
+
+            if(io.getWantCaptureKeyboard()){
+                KeyListener.keyCallback(w, key, scancode, action, mods);
+            }
         });
 
         glfwSetCharCallback(glfwWindow, (w, c) -> {
@@ -113,6 +118,10 @@ public class ImGuiLayer {
 
             if (!io.getWantCaptureMouse() && mouseDown[1]) {
                 ImGui.setWindowFocus(null);
+            }
+
+            if(!io.getWantCaptureMouse()){
+                MouseListener.mouseButtonCallback(w, button, action, mods);
             }
         });
 
@@ -153,7 +162,7 @@ public class ImGuiLayer {
 
         // When enabled, all fonts added with this config would be merged with the previously added font
         fontConfig.setPixelSnapH(true);
-        fontAtlas.addFontFromFileTTF("assets/fonts/PTSans-Regular.ttf",28,fontConfig);
+        fontAtlas.addFontFromFileTTF("assets/fonts/PTSans-Regular.ttf",24,fontConfig);
 
 
         fontConfig.destroy(); // After all fonts were added we don't need this config more
