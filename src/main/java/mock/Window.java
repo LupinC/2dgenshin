@@ -134,6 +134,7 @@ public class Window {
         float endTime;
         float dt = -1.0f;
 
+        currentScene.load();
 
         while(!glfwWindowShouldClose(glfwWindow)){
             //poll event
@@ -154,6 +155,8 @@ public class Window {
             beginTime = endTime; //ensuring interruption by the system is recorded
 
         }
+
+        currentScene.saveExit();
     }
 
     public static int getWidth(){
