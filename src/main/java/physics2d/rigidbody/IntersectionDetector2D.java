@@ -40,14 +40,14 @@ public class IntersectionDetector2D {
                 point.y <= max.y && min.y <= point.y;
     }
 
-    public static boolean pointInbox2D(Vector2f point, Box2D box){
+    public static boolean pointInBox2D(Vector2f point, Box2D box){
         //translate point to local space
         Vector2f pointLocalBoxSpace = new Vector2f(point);
         JMath.rotate(pointLocalBoxSpace, box.getRigidbody().getRotation(),
                 box.getRigidbody().getPosition());
 
-        Vector2f min = box.getMin();
-        Vector2f max = box.getMax();
+        Vector2f min = box.getLocalMin();
+        Vector2f max = box.getLocalMax();
 
         return pointLocalBoxSpace.x <= max.x && min.x <= pointLocalBoxSpace.x &&
                 pointLocalBoxSpace.y <= max.y && min.y <= pointLocalBoxSpace.y;
@@ -115,7 +115,7 @@ public class IntersectionDetector2D {
         JMath.rotate(localEnd, theta, center);
 
         Line2D localLine = new Line2D(localStart, localEnd);
-        AABB aabb = new AABB(box.getMin(), box.getMax());
+        AABB aabb = new AABB(box.getLocalMin(), box.getLocalMax());
 
         return lineAndAABB(localLine, aabb);
     }

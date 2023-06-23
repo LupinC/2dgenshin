@@ -74,7 +74,7 @@ public class LevelEditorScene extends Scene {
                 new Spritesheet(AssetPool.getTexture("assets/images/spritesheets/decorationsAndBlocks.png"),
                 16,16,81,0));
 
-        //AssetPool.getTexture("assets/images/blendImage2.png");
+        AssetPool.getTexture("assets/images/blendImage2.png");
     }
 
     float x= 0.0f;

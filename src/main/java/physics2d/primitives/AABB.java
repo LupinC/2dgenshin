@@ -27,5 +27,13 @@ public class AABB {
         return new Vector2f(this.rigidbody.getPosition()).add(this.halfSize);
     }
 
+    public void setRigidbody(Rigidbody2D rb){
+        this.rigidbody = rb;
+    }
+
+    public void setSize(Vector2f size){
+        this.size.set(size);
+        this.halfSize.set(size.x/2.0f, size.y/2.0f);
+    }
 
 }
