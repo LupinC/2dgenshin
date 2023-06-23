@@ -130,13 +130,13 @@ public class DebugDraw {
     }
 
     //add box
-/*    public static void addBox2D(Vector2f from, Vector2f to){
-        addLine2D(from, to, new Vector3f(0,1,0), 1);
+    public static void addBox2D(Vector2f center, Vector2f dimensions, float rotation){
+        addBox2D(center, dimensions, rotation, new Vector3f(0,1,0), 1);
     }
 
-    public static void addBox2D(Vector2f from, Vector2f to, Vector3f color){
-        addLine2D(from, to, color, 1);
-    }*/
+    public static void addBox2D(Vector2f center, Vector2f dimensions, float rotation, Vector3f color){
+        addBox2D(center, dimensions, rotation, color, 1);
+    }
 
     public static void addBox2D(Vector2f center, Vector2f dimensions, float rotation,
                                 Vector3f color, int lifetime){
@@ -160,4 +160,30 @@ public class DebugDraw {
         addLine2D(vertices[2], vertices[3], color, lifetime);
     }
 
+    public static void addCircle(Vector2f center, float radius){
+        addCircle(center, radius, new Vector3f(0,1,0), 1);
+    }
+
+    public static void addCircle(Vector2f center, float radius, Vector3f color){
+        addCircle(center, radius, color, 1);
+    }
+
+    public static void addCircle(Vector2f center, float radius, Vector3f color, int lifetime){
+        Vector2f[] points = new Vector2f[20];
+        int increment = 360 / points.length;
+        int currentAngle = 0;
+
+        for( int i = 0; i < points.length; i++){
+            Vector2f tmp = new Vector2f(radius, 0);
+            JMath.rotate(tmp, currentAngle, new Vector2f());
+            points[i] = new Vector2f(tmp).add(center);
+
+            if(i >0){
+                addLine2D(points[i-1],points[i], color, lifetime);
+            }
+            currentAngle += increment;
+        }
+
+        addLine2D(points[points.length-1], points[0], color, lifetime);
+    }
 }
