@@ -14,4 +14,8 @@ public class LevelScene extends Scene {
     public void update(float dt){
 
     }
+
+    public void render(){
+
+    }
 }

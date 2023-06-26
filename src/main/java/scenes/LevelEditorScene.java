@@ -102,6 +102,11 @@ public class LevelEditorScene extends Scene {
     }
 
     @Override
+    public void render(){
+        this.renderer.render();
+    }
+
+    @Override
     public void imgui(){
         ImGui.begin("Test window");
 
