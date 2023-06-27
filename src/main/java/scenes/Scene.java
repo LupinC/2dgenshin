@@ -8,6 +8,7 @@ import imgui.ImGui;
 import mock.Camera;
 import mock.GameObject;
 import mock.GameObjectDeserializer;
+import mock.Transform;
 import renderer.Renderer;
 
 import java.io.FileWriter;
@@ -70,6 +71,13 @@ public abstract class Scene {
 
     public void imgui(){
 
+    }
+
+    public GameObject createGameObject(String name){
+        GameObject go = new GameObject(name);
+        go.addComponent(new Transform());
+        go.transform = go.getComponent(Transform.class);
+        return go;
     }
 
     public void saveExit(){

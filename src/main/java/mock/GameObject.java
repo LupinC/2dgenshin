@@ -1,6 +1,7 @@
 package mock;
 
 import components.Component;
+import imgui.ImGui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,22 +12,13 @@ public class GameObject {
 
     private String name;
     private List<Component> components;
-    public Transform transform;
-    private int zIndex;
+    public transient Transform transform;
     private boolean doSerialization = true;
+
 
     public GameObject(String name){
         this.name = name;
         this.components = new ArrayList<>();
-        this.transform = new Transform();
-        this.zIndex = 0;
-    }
-
-    public GameObject(String name, Transform transform, int zIndex){
-        this.name = name;
-        this.zIndex = zIndex;
-        this.components = new ArrayList<>();
-        this.transform = transform;
         this.uid = ID_COUNTER++;
     }
 
@@ -73,12 +65,9 @@ public class GameObject {
         }
     }
 
-    public int zIndex(){
-        return this.zIndex;
-    }
-
     public void imgui(){
         for(Component c: components){
+            if (ImGui.collapsingHeader(c.getClass().getSimpleName()))
             c.imgui();
         }
     }
