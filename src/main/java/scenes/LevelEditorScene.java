@@ -34,10 +34,12 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void init(){
+        this.camera = new Camera(new Vector2f(-250,0));
         levelEditorStuff.addComponent(new MouseControls());
         levelEditorStuff.addComponent(new GridLines());
+        levelEditorStuff.addComponent(new EditorCamera(this.camera));
 
-        obj1 = new Transform(new Vector2f(100,500));
+/*        obj1 = new Transform(new Vector2f(100,500));
         obj2 = new Transform(new Vector2f(100, 300));
 
         rb1 = new Rigidbody2D();
@@ -57,12 +59,12 @@ public class LevelEditorScene extends Scene {
         rb2.setCollider(c2);
 
         physics.addRigidbody(rb1, true);
-        physics.addRigidbody(rb2, false);
+        physics.addRigidbody(rb2, false);*/
 
 
         loadResources();
 
-        this.camera = new Camera(new Vector2f(-250,0));
+
         sprites = AssetPool.getSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png");
     }
 
@@ -92,6 +94,7 @@ public class LevelEditorScene extends Scene {
     public void update(float dt){
         //System.out.println(1.0f/dt);
         levelEditorStuff.update(dt);
+        this.camera.adjustProjection();
 /*        DebugDraw.addCircle(new Vector2f(x,y), 64, new Vector3f(0,1,0),1);
         x+= 50f*dt;
         y+=50f*dt;*/
@@ -99,10 +102,10 @@ public class LevelEditorScene extends Scene {
             go.update(dt);
         }
 
-        DebugDraw.addCircle(obj1.position, 10.0f, new Vector3f(1,0,0));
+/*        DebugDraw.addCircle(obj1.position, 10.0f, new Vector3f(1,0,0));
         DebugDraw.addCircle(obj2.position, 20.0f, new Vector3f(0,0,1));
-        physics.update(dt);
-        this.renderer.render();
+        physics.update(dt);*/
+
     }
 
     @Override
