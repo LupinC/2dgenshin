@@ -7,6 +7,9 @@ version '1.0-SNAPSHOT'
 sourceCompatibility=1.11
 
 repositories {
+    flatDir {
+        dir 'libs'
+    }
     jcenter()
     mavenCentral()
 }
@@ -27,8 +30,10 @@ project.ext.imguiVersion = '1.77-0.17.1'
 
 
 dependencies {
-    //gson
+    //Box2D
+    implementation name: 'jbox2d-library'
 
+    //gson
     implementation 'com.google.code.gson:gson:2.8.6'
 
     //IM GUI
