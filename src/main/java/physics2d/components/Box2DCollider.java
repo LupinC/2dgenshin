@@ -5,7 +5,7 @@ import org.joml.Vector2f;
 import renderer.DebugDraw;
 
 public class Box2DCollider extends Collider {
-    private Vector2f halfSize = new Vector2f(1);
+    private Vector2f halfSize = new Vector2f(0.125f);
     private Vector2f origin = new Vector2f();
 
     public Vector2f getHalfSize() {

@@ -1,7 +1,12 @@
 package mock;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import components.Component;
+import components.ComponentDeserializer;
+import components.SpriteRenderer;
 import imgui.ImGui;
+import util.AssetPool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +90,26 @@ public class GameObject {
         }
     }
 
+    public GameObject copy(){
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Component.class, new ComponentDeserializer())
+                .registerTypeAdapter(GameObject.class,new GameObjectDeserializer())
+                .create();
+        String objAsJson = gson.toJson(this);
+        GameObject obj = gson.fromJson(objAsJson, GameObject.class);
+        obj.generateUid();
+        for (Component c: obj.getAllComponents()){
+            c.generateId();
+        }
+
+        SpriteRenderer sprite = obj.getComponent(SpriteRenderer.class);
+        if(sprite != null && sprite.getTexture() != null){
+            sprite.setTexture(AssetPool.getTexture(sprite.getTexture().getFilepath()));
+        }
+
+        return obj;
+    }
+
     public boolean isDead(){
         return this.isDead;
     }
@@ -103,6 +128,10 @@ public class GameObject {
 
     public void setNoSerialize(){
         this.doSerialization = false;
+    }
+
+    public void generateUid(){
+        this.uid = ID_COUNTER++;
     }
 
     public boolean doSerialization(){
