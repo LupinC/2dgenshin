@@ -22,18 +22,17 @@ public class LevelEditorSceneInitializer extends SceneInitializer {
 
     public LevelEditorSceneInitializer(){
 
-
     }
 
     @Override
-    public void init(Scene scene){
-
+    public void init(Scene scene) {
         sprites = AssetPool.getSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png");
         Spritesheet gizmos = AssetPool.getSpritesheet("assets/images/gizmos.png");
 
         levelEditorStuff = scene.createGameObject("LevelEditor");
         levelEditorStuff.setNoSerialize();
         levelEditorStuff.addComponent(new MouseControls());
+        levelEditorStuff.addComponent(new KeyControls());
         levelEditorStuff.addComponent(new GridLines());
         levelEditorStuff.addComponent(new EditorCamera(scene.camera()));
         levelEditorStuff.addComponent(new GizmoSystem(gizmos));
@@ -190,8 +189,3 @@ public class LevelEditorSceneInitializer extends SceneInitializer {
         ImGui.end();
     }
 }
-
-// blending function: C_f = C_a (S_a) + Cs(1 - Sa)
-//example: green on red, Sa = 0.6: Cf = [0, 1, 0] * 0.6 + [1, 0, 0] * 0.4
-//                                    = [0.4, 0.6, 0]
-//draw further back things first: z-index: -2 to 2
