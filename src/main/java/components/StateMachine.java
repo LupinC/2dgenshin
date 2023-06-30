@@ -63,7 +63,7 @@ public class StateMachine extends Component{
             }
         }
 
-        System.out.println("");
+        System.out.println("unable tp find state '" + animationTitle +"' in set default state");
     }
 
     public void trigger(String trigger){

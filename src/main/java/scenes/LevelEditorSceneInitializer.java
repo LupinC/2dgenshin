@@ -9,6 +9,10 @@ import physics2dtmp.PhysicsSystem2D;
 import physics2dtmp.rigidbody.Rigidbody2D;
 import util.AssetPool;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.Collections;
+
 public class LevelEditorSceneInitializer extends SceneInitializer {
 
     private Spritesheet sprites;
@@ -54,6 +58,22 @@ public class LevelEditorSceneInitializer extends SceneInitializer {
                         24, 48, 3, 0));
         AssetPool.getTexture("assets/images/blendImage2.png");
 
+        AssetPool.addSound("assets/sounds/do_you_still_love_me.ogg", true);
+        AssetPool.addSound("assets/sounds/flagpole.ogg", false);
+        AssetPool.addSound("assets/sounds/break_block.ogg", false);
+        AssetPool.addSound("assets/sounds/bump.ogg", false);
+        AssetPool.addSound("assets/sounds/coin.ogg", false);
+        AssetPool.addSound("assets/sounds/gameover.ogg", false);
+        AssetPool.addSound("assets/sounds/jump-small.ogg", false);
+        AssetPool.addSound("assets/sounds/mario_die.ogg", false);
+        AssetPool.addSound("assets/sounds/pipe.ogg", false);
+        AssetPool.addSound("assets/sounds/powerup.ogg", false);
+        AssetPool.addSound("assets/sounds/powerup_appears.ogg", false);
+        AssetPool.addSound("assets/sounds/stage_clear.ogg", false);
+        AssetPool.addSound("assets/sounds/stomp.ogg", false);
+        AssetPool.addSound("assets/sounds/kick.ogg", false);
+        AssetPool.addSound("assets/sounds/invincible.ogg", false);
+
         for(GameObject g: scene.getGameObjects()){
             if(g.getComponent(SpriteRenderer.class)!=null){
                 SpriteRenderer spr = g.getComponent(SpriteRenderer.class);
@@ -81,9 +101,10 @@ public class LevelEditorSceneInitializer extends SceneInitializer {
         ImGui.end();
 
         ImGui.begin("Objects");
-        if(ImGui.beginTabBar("WindowTabBar")){
 
+        if (ImGui.beginTabBar("WindowTabBar")) {
             if (ImGui.beginTabItem("Blocks")) {
+
                 ImVec2 windowPos = new ImVec2();
                 ImGui.getWindowPos(windowPos);
                 ImVec2 windowSize = new ImVec2();
@@ -94,16 +115,14 @@ public class LevelEditorSceneInitializer extends SceneInitializer {
                 float windowX2 = windowPos.x + windowSize.x;
                 for (int i = 0; i < sprites.size(); i++) {
                     Sprite sprite = sprites.getSprite(i);
-                    float spriteWidth = sprite.getWidth() * 2;
-                    float spriteHeight = sprite.getHeight() * 2;
+                    float spriteWidth = sprite.getWidth() * 4;
+                    float spriteHeight = sprite.getHeight() * 4;
                     int id = sprite.getTexId();
                     Vector2f[] texCoords = sprite.getTexCoords();
 
                     ImGui.pushID(i);
-                    if (ImGui.imageButton(id, spriteWidth, spriteHeight,
-                            texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y)) {
+                    if (ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y)) {
                         GameObject object = Prefabs.generateSpriteObject(sprite, 0.25f, 0.25f);
-                        //attach this to the mouse cursor
                         levelEditorStuff.getComponent(MouseControls.class).pickupObject(object);
                     }
                     ImGui.popID();
@@ -116,20 +135,20 @@ public class LevelEditorSceneInitializer extends SceneInitializer {
                         ImGui.sameLine();
                     }
                 }
+
                 ImGui.endTabItem();
             }
-            if(ImGui.beginTabItem("Prefabs")){
+
+            if (ImGui.beginTabItem("Prefabs")) {
                 Spritesheet playerSprites = AssetPool.getSpritesheet("assets/images/spritesheet.png");
                 Sprite sprite = playerSprites.getSprite(0);
-                float spriteWidth = sprite.getWidth() * 2;
-                float spriteHeight = sprite.getHeight() * 2;
+                float spriteWidth = sprite.getWidth() * 4;
+                float spriteHeight = sprite.getHeight() * 4;
                 int id = sprite.getTexId();
                 Vector2f[] texCoords = sprite.getTexCoords();
 
-                if (ImGui.imageButton(id, spriteWidth, spriteHeight,
-                        texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y)) {
+                if (ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y)) {
                     GameObject object = Prefabs.generateCharacter();
-                    //attach this to the mouse cursor
                     levelEditorStuff.getComponent(MouseControls.class).pickupObject(object);
                 }
                 ImGui.sameLine();
@@ -138,14 +157,30 @@ public class LevelEditorSceneInitializer extends SceneInitializer {
                 sprite = items.getSprite(0);
                 id = sprite.getTexId();
                 texCoords = sprite.getTexCoords();
-
-                if (ImGui.imageButton(id, spriteWidth, spriteHeight,
-                        texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y)) {
+                if (ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y)) {
                     GameObject object = Prefabs.generateQuestionBlock();
-                    //attach this to the mouse cursor
                     levelEditorStuff.getComponent(MouseControls.class).pickupObject(object);
                 }
-                ImGui.sameLine();
+
+                ImGui.endTabItem();
+            }
+
+            if (ImGui.beginTabItem("Sounds")) {
+                Collection<Sound> sounds = AssetPool.getAllSounds();
+                for (Sound sound : sounds) {
+                    File tmp = new File(sound.getFilepath());
+                    if (ImGui.button(tmp.getName())) {
+                        if (!sound.isPlaying()) {
+                            sound.play();
+                        } else {
+                            sound.stop();
+                        }
+                    }
+
+                    if (ImGui.getContentRegionAvailX() > 100) {
+                        ImGui.sameLine();
+                    }
+                }
 
                 ImGui.endTabItem();
             }
