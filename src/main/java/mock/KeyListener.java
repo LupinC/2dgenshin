@@ -1,5 +1,7 @@
 package mock;
 
+import java.util.Arrays;
+
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
@@ -10,6 +12,9 @@ public class KeyListener {
 
     private KeyListener(){
 
+    }
+    public static void endFrame(){
+        Arrays.fill(get().keyBeginPress, false);
     }
     public static KeyListener get(){
         if(KeyListener.instance == null){
@@ -33,10 +38,6 @@ public class KeyListener {
     }
 
     public static boolean keyBeginPress(int keyCode){
-        boolean result = get().keyBeginPress[keyCode];
-        if(result){
-            get().keyBeginPress[keyCode] = false;
-        }
-        return result;
+        return get().keyBeginPress[keyCode];
     }
 }

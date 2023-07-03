@@ -9,6 +9,7 @@ import observers.EventSystem;
 import observers.events.Event;
 import observers.events.EventType;
 import org.joml.Vector2f;
+import util.Settings;
 
 public class GameViewWindow {
 
@@ -38,15 +39,15 @@ public class GameViewWindow {
         ImVec2 windowPos = getCenteredPositionForViewport(windowSize);
 
         ImGui.setCursorPos(windowPos.x, windowPos.y);
-        leftX = windowPos.x;
-        bottomY = windowPos.y;
-        rightX = windowPos.x + windowSize.x;
-        topY = windowPos.y + windowSize.y;
+        leftX = windowPos.x + 8;
+        bottomY = windowPos.y + 16;
+        rightX = windowPos.x + windowSize.x + 8;
+        topY = windowPos.y + windowSize.y + 16;
 
         int textureId = Window.getFramebuffer().getTextureId();
         ImGui.image(textureId, windowSize.x, windowSize.y, 0, 1, 1, 0);
 
-        MouseListener.setGameViewportPos(new Vector2f(windowPos.x, windowPos.y));
+        MouseListener.setGameViewportPos(new Vector2f(windowPos.x + 8, windowPos.y + 16));
         MouseListener.setGameViewportSize(new Vector2f(windowSize.x, windowSize.y));
 
         ImGui.end();
