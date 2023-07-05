@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.*;
 import org.joml.Vector2f;
 import physics2d.components.Box2DCollider;
 import physics2d.components.CircleCollider;
+import physics2d.components.PillboxCollider;
 import physics2d.components.Rigidbody2D;
 
 public class Physics2D {
@@ -19,6 +20,14 @@ public class Physics2D {
     private float physicsTimeStep = 1.0f / 120.0f;
     private int velocityIterations = 8;
     private int positionIterations = 3;
+
+    public Physics2D(){
+        world.setContactListener(new MockContactListener());
+    }
+
+    public Vector2f getGravity(){
+        return new Vector2f(this.world.getGravity().x, this.world.getGravity().y);
+    }
 
     public void add(GameObject go){
         Rigidbody2D rb = go.getComponent(Rigidbody2D.class);
@@ -48,12 +57,16 @@ public class Physics2D {
 
             CircleCollider circleCollider = go.getComponent(CircleCollider.class);
             Box2DCollider boxCollider = go.getComponent(Box2DCollider.class);
+            PillboxCollider pillboxCollider = go.getComponent(PillboxCollider.class);
 
             if(circleCollider!= null){
                 addCircleCollider(rb, circleCollider);
             }
             if(boxCollider!=null){
                 addBox2DCollider(rb, boxCollider);
+            }
+            if(pillboxCollider!=null){
+                addPillboxCollider(rb, pillboxCollider);
             }
 
 
@@ -187,5 +200,33 @@ public class Physics2D {
             fixture = fixture.m_next;
         }
         return size;
+    }
+
+    public boolean isLocked() {
+        return world.isLocked();
+    }
+
+    public void resetPillboxCollider(Rigidbody2D rb, PillboxCollider pb){
+        Body body = rb.getRawBody();
+        if (body == null){
+            return;
+        }
+
+        int size = fixtureListSize(body);
+        for (int i = 0; i < size; i++){
+            body.destroyFixture(body.getFixtureList());
+        }
+
+        addPillboxCollider(rb, pb);
+        body.resetMassData();
+    }
+
+    public void addPillboxCollider(Rigidbody2D rb, PillboxCollider pb){
+        Body body = rb.getRawBody();
+        assert body!=null:"Raw body must not be null";
+
+        addBox2DCollider(rb, pb.getBox());
+        addCircleCollider(rb, pb.getTopCircle());
+        addCircleCollider(rb, pb.getBottomCircle());
     }
 }

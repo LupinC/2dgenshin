@@ -2,13 +2,11 @@ package util;
 
 import components.Spritesheet;
 import mock.Sound;
-import physics2d.components.Collider;
 import renderer.Shader;
 import renderer.Texture;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 

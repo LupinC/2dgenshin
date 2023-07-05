@@ -143,6 +143,7 @@ public class Scene {
                 .setPrettyPrinting()
                 .registerTypeAdapter(Component.class, new ComponentDeserializer())
                 .registerTypeAdapter(GameObject.class,new GameObjectDeserializer())
+                .enableComplexMapKeySerialization()
                 .create();
         try{
             FileWriter writer = new FileWriter("level.txt");
@@ -165,6 +166,7 @@ public class Scene {
                 .setPrettyPrinting()
                 .registerTypeAdapter(Component.class, new ComponentDeserializer())
                 .registerTypeAdapter(GameObject.class,new GameObjectDeserializer())
+                .enableComplexMapKeySerialization()
                 .create();
         String inFile = "";
         try{

@@ -148,4 +148,5 @@ public class Rigidbody2D extends Component {
     public void setRawBody(Body rawBody) {
         this.rawBody = rawBody;
     }
+
 }

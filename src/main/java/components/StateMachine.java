@@ -44,7 +44,7 @@ public class StateMachine extends Component{
         }
     }
 
-    public void addStateTrigger(String from, String to, String onTrigger){
+    public void addState(String from, String to, String onTrigger){
         this.stateTransfers.put(new StateTrigger(from, onTrigger), to);
     }
 

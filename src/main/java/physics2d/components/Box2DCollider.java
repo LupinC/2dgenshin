@@ -4,13 +4,20 @@ import components.Component;
 import org.joml.Vector2f;
 import renderer.DebugDraw;
 
-public class Box2DCollider extends Collider {
+public class Box2DCollider extends Component {
     private Vector2f halfSize = new Vector2f(0.25f);
     private Vector2f origin = new Vector2f();
+    private Vector2f offset = new Vector2f();
 
     public Vector2f getHalfSize() {
         return halfSize;
     }
+
+    public Vector2f getOffset(){
+        return this.offset;
+    }
+
+    public void setOffset(Vector2f newOffset) {this.offset.set(newOffset);}
 
     public void setHalfSize(Vector2f halfSize) {
         this.halfSize = halfSize;
