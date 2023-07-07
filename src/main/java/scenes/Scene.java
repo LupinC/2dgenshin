@@ -87,6 +87,15 @@ public class Scene {
         return result.orElse(null);
     }
 
+    public GameObject getGameObject(String gameObjectName){
+        //filter the gameobject's list where the game objecet's id matches
+        //the gameobjects passed in, return the matched one
+        Optional<GameObject> result = this.gameObjects.stream()
+                .filter(gameObject -> gameObject.name.equals(gameObjectName))
+                .findFirst();
+        return result.orElse(null);
+    }
+
     public void editorUpdate(float dt){
         this.camera.adjustProjection();
 
