@@ -1,5 +1,6 @@
 package renderer;
 
+import mock.Camera;
 import mock.Window;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -16,7 +17,7 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 public class DebugDraw {
-    private static int MAX_LINES = 500;
+    private static int MAX_LINES = 3000;
 
     private static List<Line2D> lines = new ArrayList<>();
 
@@ -125,7 +126,13 @@ public class DebugDraw {
     }
 
     public static void addLine2D(Vector2f from, Vector2f to, Vector3f color, int lifetime){
-        if(lines.size() >= MAX_LINES) return;
+        Camera camera = Window.getScene().camera();
+        Vector2f cameraLeft = new Vector2f(camera.position).add(new Vector2f(-2.0f, -2.0f));
+        Vector2f cameraRight = new Vector2f(camera.position).add(new Vector2f(camera.getProjectionSize()).mul(camera.getZoom())).add(new Vector2f(4.0f, 4.0f));
+        Boolean lineinView = ((from.x >= cameraLeft.x && from.x <= cameraRight.x) && (from.y >= cameraLeft.y && from.y <= cameraRight.y)) ||
+                ((to.x >= cameraLeft.x && to.x <= cameraRight.x) && (to.y >= cameraLeft.y && to.y <= cameraRight.y));
+        if(lines.size() >= MAX_LINES || !lineinView) {return;
+        }
         DebugDraw.lines.add(new Line2D(from, to, color, lifetime));
     }
 

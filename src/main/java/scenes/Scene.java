@@ -53,6 +53,8 @@ public class Scene {
     public void start(){
         for(int i = 0; i < getGameObjects().size(); i++){
             GameObject go = gameObjects.get(i);
+
+            if (go == null)assert false: "camera is null";
             go.start();
             this.renderer.add(go);
             this.physics2D.add(go);
@@ -72,6 +74,15 @@ public class Scene {
         for( GameObject go : gameObjects){
             go.destroy();
         }
+    }
+
+    public <T extends Component> GameObject getGameObjectWith(Class<T> clazz){
+        for (GameObject go: gameObjects){
+            if(go.getComponent(clazz) != null){
+                return go;
+            }
+        }
+        return  null;
     }
 
     public List<GameObject> getGameObjects(){

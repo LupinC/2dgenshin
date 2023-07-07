@@ -15,6 +15,7 @@ import physics2d.components.Rigidbody2D;
 import physics2d.enums.BodyType;
 import renderer.DebugDraw;
 import scenes.LevelEditorSceneInitializer;
+import scenes.LevelSceneInitializer;
 import util.AssetPool;
 
 import java.awt.*;
@@ -81,7 +82,7 @@ public class PlayerController extends Component{
                 this.rb.setVelocity(this.velocity);
                 this.rb.setAngularVelocity(0);
             } else if (!deadGoingUp && gameObject.transform.position.y <= deadMinHeight){
-                Window.changeScene(new LevelEditorSceneInitializer());
+                Window.changeScene(new LevelSceneInitializer());
             }
             return;
         }
@@ -278,5 +279,9 @@ public class PlayerController extends Component{
 
     public void enemyBounce(){
         this.enemyBounce = 8;
+    }
+
+    public boolean hasWon(){
+        return false;
     }
 }
