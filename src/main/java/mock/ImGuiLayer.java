@@ -169,7 +169,7 @@ public class ImGuiLayer {
         //ImGui.showDemoWindow();
         gameViewWindow.imgui();
         propertiesWindow.imgui();
-        sceneHeirarchyWindow.imgui();
+        //sceneHeirarchyWindow.imgui();
 
         endFrame();
     }
