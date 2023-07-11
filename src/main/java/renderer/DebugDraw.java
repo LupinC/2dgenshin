@@ -103,7 +103,7 @@ public class DebugDraw {
         glEnableVertexAttribArray(1);
 
         //draw the batch
-        glDrawArrays(GL_LINES, 0, lines.size()*6*2);
+        glDrawArrays(GL_LINES, 0, lines.size());
 
         //Disable location
         glDisableVertexAttribArray(0);
