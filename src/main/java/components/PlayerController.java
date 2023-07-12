@@ -46,7 +46,7 @@ public class PlayerController extends Component{
     private transient Rigidbody2D rb;
     private transient StateMachine stateMachine;
     private transient float bigJumpBoostFactor = 1.05f;
-    private transient float playerWidth = 0.25f;
+    private transient float playerWidth = 0.1625f;
     private transient int jumpTime = 0;
     private transient Vector2f acceleration = new Vector2f();
     private transient Vector2f velocity = new Vector2f();
@@ -238,6 +238,7 @@ public class PlayerController extends Component{
 
     public void powerup(){
         if(playerState == PlayerState.Small){
+            playerWidth = 0.25f;
             playerState = PlayerState.Big;
             AssetPool.getSound("assets/sounds/powerup.ogg").play();
             gameObject.transform.scale.y = 0.42f;
@@ -300,6 +301,7 @@ public class PlayerController extends Component{
                 deadMinHeight = -0.25f;
             }
         } else if (this.playerState == PlayerState.Big){
+            playerWidth = 0.1625f;
             this.playerState = PlayerState.Small;
             gameObject.transform.scale.y = 0.25f;
             PillboxCollider pb = gameObject.getComponent(PillboxCollider.class);

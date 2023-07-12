@@ -23,9 +23,9 @@ public class Prefabs {
     }
 
     public static GameObject generateCharacter(){
-        Spritesheet playerSprites = AssetPool.getSpritesheet("assets/images/spritesheet.png");
+        Spritesheet playerSprites = AssetPool.getSpritesheet("assets/images/bigSpritesheet.png");
         Spritesheet bigPlayerSprites = AssetPool.getSpritesheet("assets/images/bigSpritesheet.png");
-        GameObject character = generateSpriteObject(playerSprites.getSprite(0),0.25f,0.25f);
+        GameObject character = generateSpriteObject(playerSprites.getSprite(0),0.1625f,0.25f);
 
         AnimationState run = new AnimationState();
         run.title = "run";
@@ -81,27 +81,27 @@ public class Prefabs {
         int fireOffset = 21;
         AnimationState fireRun = new AnimationState();
         fireRun.title = "FireRun";
-        fireRun.addFrame(bigPlayerSprites.getSprite(fireOffset + 0), defaultFrameTime);
-        fireRun.addFrame(bigPlayerSprites.getSprite(fireOffset + 1), defaultFrameTime);
-        fireRun.addFrame(bigPlayerSprites.getSprite(fireOffset + 2), defaultFrameTime);
-        fireRun.addFrame(bigPlayerSprites.getSprite(fireOffset + 3), defaultFrameTime);
-        fireRun.addFrame(bigPlayerSprites.getSprite(fireOffset + 2), defaultFrameTime);
-        fireRun.addFrame(bigPlayerSprites.getSprite(fireOffset + 1), defaultFrameTime);
+        fireRun.addFrame(bigPlayerSprites.getSprite(0), defaultFrameTime);
+        fireRun.addFrame(bigPlayerSprites.getSprite(1), defaultFrameTime);
+        fireRun.addFrame(bigPlayerSprites.getSprite(2), defaultFrameTime);
+        fireRun.addFrame(bigPlayerSprites.getSprite(3), defaultFrameTime);
+        fireRun.addFrame(bigPlayerSprites.getSprite(2), defaultFrameTime);
+        fireRun.addFrame(bigPlayerSprites.getSprite(1), defaultFrameTime);
         fireRun.setLoop(true);
 
         AnimationState fireSwitchDirection = new AnimationState();
         fireSwitchDirection.title = "Fire Switch Direction";
-        fireSwitchDirection.addFrame(bigPlayerSprites.getSprite(fireOffset + 4), 0.1f);
+        fireSwitchDirection.addFrame(bigPlayerSprites.getSprite(4), 0.1f);
         fireSwitchDirection.setLoop(false);
 
         AnimationState fireIdle = new AnimationState();
         fireIdle.title = "FireIdle";
-        fireIdle.addFrame(bigPlayerSprites.getSprite(fireOffset + 0), 0.1f);
+        fireIdle.addFrame(bigPlayerSprites.getSprite(0), 0.1f);
         fireIdle.setLoop(false);
 
         AnimationState fireJump = new AnimationState();
         fireJump.title = "FireJump";
-        fireJump.addFrame(bigPlayerSprites.getSprite(fireOffset + 5), 0.1f);
+        fireJump.addFrame(bigPlayerSprites.getSprite(5), 0.1f);
         fireJump.setLoop(false);
 
         AnimationState die = new AnimationState();
