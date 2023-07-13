@@ -75,6 +75,10 @@ public class PlayerController extends Component{
 
     @Override
     public void update(float dt){
+
+        if (gameObject.transform.position.y < 5000){
+            die();
+        }
         if (playWinAnimation){
             checkOnGround();
             if (!onGround){
