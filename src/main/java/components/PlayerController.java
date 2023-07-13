@@ -20,6 +20,7 @@ import scenes.LevelSceneInitializer;
 import util.AssetPool;
 
 import java.awt.*;
+import java.sql.Time;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -76,9 +77,6 @@ public class PlayerController extends Component{
     @Override
     public void update(float dt){
 
-        if (gameObject.transform.position.y < 5000){
-            die();
-        }
         if (playWinAnimation){
             checkOnGround();
             if (!onGround){
@@ -88,9 +86,10 @@ public class PlayerController extends Component{
                 stateMachine.trigger("stopJumping");
             } else {
                 if (this.walkTime > 0){
-                    gameObject.transform.scale.x = 0.25f;
+                    if (this.playerState == PlayerState.Small)
+                    gameObject.transform.scale.x = 0.1625f;
                     gameObject.transform.position.x += dt;
-                    stateMachine.trigger("startRunning");
+                    stateMachine.trigger("run");
                 }
                 if (!AssetPool.getSound("assets/sounds/stage_clear.ogg").isPlaying()){
                     AssetPool.getSound("assets/sounds/stage_clear.ogg").play();
@@ -227,7 +226,6 @@ public class PlayerController extends Component{
     }
 
     public void checkOnGround(){
-
         float innerPlayerWidth = this.playerWidth*0.6f;
 
         float yVal = playerState == PlayerState.Small ? -0.14f: -0.24f;
@@ -341,6 +339,7 @@ public class PlayerController extends Component{
             rb.setIsSensor();
             rb.setBodyType(BodyType.Static);
             gameObject.transform.position.x = flagpole.transform.position.x;
+            AssetPool.getSound("assets/sounds/The_7_Seas.ogg").stop();
             AssetPool.getSound("assets/sounds/flagpole.ogg").play();
         }
     }

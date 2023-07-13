@@ -45,9 +45,11 @@ public class SlimeAI extends Component{
             return;
         }
 
-        if (goingRight) {
+        if (goingRight){
+            gameObject.transform.scale.x = 0.25f;
             velocity.x = walkSpeed;
         } else {
+            gameObject.transform.scale.x = -0.25f;
             velocity.x = -walkSpeed;
         }
 
@@ -102,6 +104,7 @@ public class SlimeAI extends Component{
     public void stomp(boolean playSound) {
         this.isDead = true;
         this.velocity.zero();
+        this.gameObject.transform.zIndex = -2;
         this.rb.setVelocity(new Vector2f());
         this.rb.setAngularVelocity(0.0f);
         this.rb.setGravityScale(0.0f);

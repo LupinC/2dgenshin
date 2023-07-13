@@ -30,10 +30,8 @@ public class Prefabs {
         AnimationState run = new AnimationState();
         run.title = "run";
         float defaultFrameTime = 0.23f;
-        run.addFrame(playerSprites.getSprite(0), defaultFrameTime);
         run.addFrame(playerSprites.getSprite(2), defaultFrameTime);
         run.addFrame(playerSprites.getSprite(3), defaultFrameTime);
-        run.addFrame(playerSprites.getSprite(2), defaultFrameTime);
         run.setLoop(true);
 
         AnimationState switchDirection = new AnimationState();
@@ -54,7 +52,7 @@ public class Prefabs {
         // Big mario animations
         AnimationState bigRun = new AnimationState();
         bigRun.title = "BigRun";
-        bigRun.addFrame(bigPlayerSprites.getSprite(0), defaultFrameTime);
+        //bigRun.addFrame(bigPlayerSprites.getSprite(0), defaultFrameTime);
         bigRun.addFrame(bigPlayerSprites.getSprite(1), defaultFrameTime);
         bigRun.addFrame(bigPlayerSprites.getSprite(2), defaultFrameTime);
         bigRun.addFrame(bigPlayerSprites.getSprite(3), defaultFrameTime);
@@ -81,7 +79,7 @@ public class Prefabs {
         int fireOffset = 21;
         AnimationState fireRun = new AnimationState();
         fireRun.title = "FireRun";
-        fireRun.addFrame(bigPlayerSprites.getSprite(0), defaultFrameTime);
+        //fireRun.addFrame(bigPlayerSprites.getSprite(0), defaultFrameTime);
         fireRun.addFrame(bigPlayerSprites.getSprite(1), defaultFrameTime);
         fireRun.addFrame(bigPlayerSprites.getSprite(2), defaultFrameTime);
         fireRun.addFrame(bigPlayerSprites.getSprite(3), defaultFrameTime);
@@ -333,19 +331,19 @@ public class Prefabs {
     }
 
     public static GameObject generateSlime(){
-        Spritesheet sprites = AssetPool.getSpritesheet("assets/images/spritesheet.png");
-        GameObject slime = generateSpriteObject(sprites.getSprite(14),0.25f,0.25f);
+        Spritesheet sprites = AssetPool.getSpritesheet("assets/images/slime.png");
+        GameObject slime = generateSpriteObject(sprites.getSprite(0),0.25f,0.25f);
 
         AnimationState walk = new AnimationState();
         walk.title = "Walk";
         float defaultFrameTime = 0.23f;
-        walk.addFrame(sprites.getSprite(14), defaultFrameTime);
-        walk.addFrame(sprites.getSprite(15), defaultFrameTime);
+        walk.addFrame(sprites.getSprite(0), defaultFrameTime);
+        walk.addFrame(sprites.getSprite(1), defaultFrameTime);
         walk.setLoop(true);
 
         AnimationState squashed = new AnimationState();
         squashed.title = "Squashed";
-        squashed.addFrame(sprites.getSprite(16), 0.1f);
+        squashed.addFrame(sprites.getSprite(3), 0.1f);
         squashed.setLoop(false);
 
 

@@ -55,7 +55,7 @@ public class LevelSceneInitializer extends SceneInitializer {
                         24, 48, 3, 0));
         AssetPool.getTexture("assets/images/blendImage2.png");
 
-        AssetPool.addSound("assets/sounds/main-theme-overworld.ogg", true);
+        AssetPool.addSound("assets/sounds/The_7_Seas.ogg", true);
         AssetPool.addSound("assets/sounds/flagpole.ogg", false);
         AssetPool.addSound("assets/sounds/break_block.ogg", false);
         AssetPool.addSound("assets/sounds/bump.ogg", false);
@@ -71,7 +71,7 @@ public class LevelSceneInitializer extends SceneInitializer {
         AssetPool.addSound("assets/sounds/kick.ogg", false);
         AssetPool.addSound("assets/sounds/invincible.ogg", false);
 
-        AssetPool.getSound(("assets/sounds/main-theme-overworld.ogg")).play();
+        AssetPool.getSound(("assets/sounds/The_7_Seas.ogg")).play();
 
         for (GameObject g : scene.getGameObjects()) {
             if (g.getComponent(SpriteRenderer.class) != null) {
